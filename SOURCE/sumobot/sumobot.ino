@@ -1,37 +1,27 @@
 #include <Servo.h>
 
-#define SWEEP_READS 18
-#define SERVO_STEP  180/SWEEP_READS
-#define SERVO_DELAY 360/SWEEP_READS
-
-// Scorpion XL PPM Signal
-int left_motor_pin = 9;
-int right_motor_pin = 10;
-int center_sweeper_pin = 3;
-
-Servo left_motor;
-Servo right_motor;
-Servo center_sweeper;
-
-//
-int left_bumper = 4;
-int right_bumper = 12;
-int monitor_ired = 11;
-int center_rangefinder = A0;
-
+#include "bumper.h"
+#include "infrared.h"
+#include "range_finder.h"
+#include "scorpion_xl.h"
 
 void setup()
 {
+  int i;
   Serial.begin(9600);
-  pinMode(monitor_ired, OUTPUT);
-  pinMode(center_rangefinder, INPUT);
-  pinMode(left_bumper, INPUT);
-  pinMode(right_bumper, INPUT);
-  left_motor.attach(left_motor_pin);
-  right_motor.attach(right_motor_pin);
-  center_sweeper.attach(center_sweeper_pin);
+  pinMode(LEFT_BUMPER, INPUT);
+  pinMode(RIGHT_BUMPER, INPUT);
+  pinMode(LEFT_IR, INPUT);
+  pinMode(RIGHT_IR, INPUT);
+  pinMode(BACK_IR, INPUT);
+  pinMode(RFINDER_PIN, INPUT);
+  irrf_servo.attach(SERVO_PIN);
+  
+  for(i=0; i<180; i++)
+    scan_field[i] = 0;
 }
 
+/*
 int *search()
 {
   static int i;
@@ -60,23 +50,9 @@ int *search()
   }
   return ir_values;
 }
-
-void push(){
-  if(digitalRead(left_bumper)){
-    left_motor.write(180);
-  }else{
-    left_motor.write(0);
-  }
-
-  if(digitalRead(right_bumper)){
-    right_motor.write(180);
-  }else{
-    right_motor.write(0);
-  }
-}
+*/
 
 void loop()
 {
-  search();
-  push();
+//  search();
 }
