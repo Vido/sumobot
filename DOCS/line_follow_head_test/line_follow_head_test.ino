@@ -5,7 +5,7 @@
 #define RIGHT A4
 #define FAR_RIGHT A5
 
-#define WB_THRESHOLD 400
+#define WB_THRESHOLDS {700, 700, 700, 700, 700, 700}
 #define IR_DELAY 140
 
 void setup() 
@@ -21,10 +21,12 @@ void setup()
 }
 
 boolean toDigital(uint8_t pin){
+  int thresholds[6] = WB_THRESHOLDS;
   int reading = analogRead(pin);
   delayMicroseconds(IR_DELAY);
   // Serial.println(reading);
-  return reading > WB_THRESHOLD;
+  // Works only on UNO
+  return reading > thresholds[(pin-14)];
 }
 
 void print_digital_readings(){
@@ -35,7 +37,6 @@ void print_digital_readings(){
    boolean center_right = toDigital(CENTER_RIGHT);
    boolean right =        toDigital(RIGHT);
    boolean far_right =    toDigital(FAR_RIGHT);
-
 
    Serial.print(far_left);
    Serial.print("\t");
@@ -48,7 +49,6 @@ void print_digital_readings(){
    Serial.print(right);
    Serial.print("\t");
    Serial.println(far_right);
-
 }
 
 void print_analog_readings(){
@@ -75,7 +75,7 @@ void print_analog_readings(){
 }
 
 void loop(){
-  print_analog_readings();
-  //print_digital_readings();
+  //print_analog_readings();
+  print_digital_readings();
   delay(20);
 }
