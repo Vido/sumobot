@@ -2,9 +2,10 @@
 
 //#define IR_DEBUG
 
-#define LEFT_IR A3
-#define RIGHT_IR A4
-#define BACK_IR A5
+#define LEFT_FRONT_IR A2
+#define RIGHT_FRONT_IR A3
+#define BACK_LEFT_IR A3
+#define BACK_RIGHT_IR A5
 
 #define WB_THRESHOLD 600
 #define IR_DELAY 140

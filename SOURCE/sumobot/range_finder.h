@@ -1,11 +1,12 @@
 #include <Arduino.h>
-#include <Servo.h> 
+//#include <Servo.h> 
 
 // #define RF_DEBUG
-#define SERVO_PIN 9
 #define SERVO_DELAY 2
-#define RFINDER_PIN A0
+#define RF_LEFT_PIN A0
+#define RF_RIGHT_PIN A1
 
+/*
 Servo irrf_servo;
 
 byte pos = 0;
@@ -41,3 +42,4 @@ int sweep()
   //incr=1;
   
 }
+*/
