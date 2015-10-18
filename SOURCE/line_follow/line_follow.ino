@@ -96,17 +96,17 @@ void loop() {
     }else{
       // fica loko
     }
-    
+    /*
     if(state != last_state){
-      if(-3 >= last_state || last_state <= 3){
-        motor_break();
-      }
+      //if(-3 >= last_state || last_state <= 3){
+        //motor_break();
+      //}
       if(0 == last_state){
           left_motor_forward(PWM_IDLE);
           right_motor_forward(PWM_IDLE);
       }
     }
-    
+    */
     switch(state){
       case 4:
           //left_motor.write(PPM_MAX);
