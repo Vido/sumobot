@@ -1,6 +1,6 @@
 #include <Arduino.h>
 
-//#define IR_DEBUG
+// #define IR_DEBUG
 
 #define FAR_LEFT A0
 #define LEFT A1
@@ -10,9 +10,9 @@
 #define FAR_RIGHT A5
 
 #define WB_THRESHOLD 700
-#define WB_THRESHOLDS {700, 700, 700, 700, 700, 700}
+#define WB_THRESHOLDS {800, 800, 800, 800, 800, 800}
 
-#define IR_DELAY 140
+#define IR_DELAY 70
 
 boolean toDigital(uint8_t pin){
   int thresholds[6] = WB_THRESHOLDS;
@@ -20,7 +20,7 @@ boolean toDigital(uint8_t pin){
   delayMicroseconds(IR_DELAY);
   #ifdef IR_DEBUG
     Serial.print(pin);
-    Serial.print("-");  
+    Serial.print(" - ");  
     Serial.println(reading);
   #endif
   // Works only on UNO
