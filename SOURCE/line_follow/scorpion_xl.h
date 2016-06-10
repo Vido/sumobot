@@ -8,7 +8,6 @@
 
 #define LEFT_MOTOR_PIN 6
 #define RIGHT_MOTOR_PIN 10
-#define MOTOR_DELAY 100
 
 // Scorpion XL PPM Signal
 Servo left_motor;

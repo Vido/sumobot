@@ -1,18 +1,14 @@
-#include <Servo.h>
+//#define LF_DEBUG
+//#define ST_DEBUG
 
-// #define LF_DEBUG
-
+// #include <Servo.h>
 // #include "scorpion_xl.h"
 #include "infrared.h"
 #include "ln298.h"
 
 void setup() {
   
-  #ifdef LF_DEBUG
-    Serial.begin(9600);
-  #endif
-  
-  #ifdef IR_DEBUG
+  #if defined(IR_DEBUG) || defined(ST_DEBUG) ||  defined(LF_DEBUG)
     Serial.begin(9600);
   #endif
 
@@ -91,22 +87,23 @@ void loop() {
       state = 3;
     }
     else if(r0 && r1 && r2 && r3 && r4 && r5){
-      // Tudo 1
+      // All white
       state = last_state > 0 ? 4 : -4;
-    }else{
-      // fica loko
     }
-    /*
-    if(state != last_state){
-      //if(-3 >= last_state || last_state <= 3){
-        //motor_break();
-      //}
-      if(0 == last_state){
-          left_motor_forward(PWM_IDLE);
-          right_motor_forward(PWM_IDLE);
-      }
+    else if(!r0 && !r1 && !r2 && !r3 && !r4 && !r5){
+      // All black
+      state = 0;
     }
-    */
+    else{
+      // Dunno
+      // state = last_state > 0 ? 2 : -2;
+    }
+
+    #ifdef ST_DEBUG
+      Serial.println("-----------------");
+      Serial.println(state);
+    #endif
+
     switch(state){
       case 4:
           //left_motor.write(PPM_MAX);

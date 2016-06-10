@@ -7,11 +7,11 @@
 #define IN4 10 // PWM
 #define ENB 11 // PWM
 
-#define PWM_MAX 65
-#define PWM_SLOW 55
-#define PWM_IDLE 40
+#define PWM_MAX 200
+#define PWM_SLOW 118
+#define PWM_IDLE 42
 
-#define RIGHT_TRIM 1.28 
+#define RIGHT_TRIM 1.25
 
 void left_motor_forward(int power){
   digitalWrite(IN3, HIGH);

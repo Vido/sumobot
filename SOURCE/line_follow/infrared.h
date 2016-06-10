@@ -10,7 +10,7 @@
 #define FAR_RIGHT A5
 
 #define WB_THRESHOLD 700
-#define WB_THRESHOLDS {800, 800, 800, 800, 800, 800}
+#define WB_THRESHOLDS {500, 500, 500, 500, 300, 300}
 
 #define IR_DELAY 70
 
