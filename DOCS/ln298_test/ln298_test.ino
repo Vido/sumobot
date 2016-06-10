@@ -1,23 +1,64 @@
-#include <Servo.h>
+// RIGHT
+#define ENA 6 // PWM 
+#define IN1 7
+#define IN2 8
+// LEFT
+#define IN3 9  // PWM
+#define IN4 10 // PWM
+#define ENB 11 // PWM
 
-#define PPM_MAX 180 -18
-#define PPM_IDLE 90
-#define PPM_MIN 0 + 18
+#define PWM_MAX 200
+#define PWM_SLOW 128
+#define PWM_IDLE 42
 
-#define LEFT_MOTOR_PIN 10
-#define RIGHT_MOTOR_PIN 11
 #define MOTOR_DELAY 100
 
-// Scorpion XL PPM Signal
-Servo left_motor;
-Servo right_motor;
+#define RIGHT_TRIM 1.25 
+
+void left_motor_forward(int power){
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+  analogWrite(ENB, power);
+}
+
+void right_motor_forward(int power){
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  analogWrite(ENA, power * RIGHT_TRIM);
+}
+
+void left_motor_backward(int power){
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+  analogWrite(ENB, power);
+}
+
+void right_motor_backward(int power){
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+  analogWrite(ENA, power * RIGHT_TRIM);
+}
+
+void motor_break(){
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, HIGH);
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, HIGH);
+  digitalWrite(ENA, HIGH);
+  digitalWrite(ENB, HIGH);
+}
 
 void setup()
 {
   Serial.begin(9600);
   pinMode(LED_BUILTIN, OUTPUT);
-  left_motor.attach(LEFT_MOTOR_PIN);
-  right_motor.attach(RIGHT_MOTOR_PIN);
+  
+  pinMode(ENA, OUTPUT);
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(ENB, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);
 }
 
 void run()
@@ -25,37 +66,47 @@ void run()
   int i;
   
   // LEFT //////////////////////
-  for(i=PPM_IDLE; i<PPM_MAX; i++){
-    left_motor.write(i);
+  for(i=PWM_IDLE; i<PWM_MAX; i++){
+    left_motor_forward(i);
     delay(MOTOR_DELAY);
     Serial.println(i);
   }
-  for(i=PPM_MAX; i>PPM_MIN; i--){
-    left_motor.write(i);
+  for(i=PWM_MAX; i>PWM_IDLE; i--){
+    left_motor_forward(i);
     delay(MOTOR_DELAY);
     Serial.println(i);
   }
-  for(i=PPM_MIN; i<PPM_IDLE; i++){
-    left_motor.write(i);
+  for(i=PWM_IDLE; i>PWM_MAX; i--){
+    left_motor_backward(i);
+    delay(MOTOR_DELAY);
+    Serial.println(i);
+  }
+  for(i=PWM_MAX; i<PWM_IDLE; i++){
+    left_motor_backward(i);
     delay(MOTOR_DELAY);
     // Serial.println(i);
   }
 
   // RIGHT //////////////////////
-  for(i=PPM_IDLE; i<PPM_MAX; i++){
-    right_motor.write(i);
+  for(i=PWM_IDLE; i<PWM_MAX; i++){
+    right_motor_forward(i);
     delay(MOTOR_DELAY);
     Serial.println(i);
   }
-  for(i=PPM_MAX; i>PPM_MIN; i--){
-    right_motor.write(i);
+  for(i=PWM_MAX; i>PWM_IDLE; i--){
+    right_motor_forward(i);
     delay(MOTOR_DELAY);
     Serial.println(i);
   }
-  for(i=PPM_MIN; i<PPM_IDLE; i++){
-    right_motor.write(i);
+  for(i=PWM_IDLE; i>PWM_MAX; i--){
+    right_motor_backward(i);
     delay(MOTOR_DELAY);
     Serial.println(i);
+  }
+  for(i=PWM_MAX; i<PWM_IDLE; i++){
+    right_motor_backward(i);
+    delay(MOTOR_DELAY);
+    //Serial.println(i);
   }
 }
 
@@ -63,48 +114,40 @@ void run()
 void calibrate()
 {
     digitalWrite(LED_BUILTIN, HIGH);
-    right_motor.write(PPM_IDLE);
-    left_motor.write(PPM_IDLE);
+    right_motor_forward(PWM_IDLE);
+    left_motor_forward(PWM_IDLE);
     delay(MOTOR_DELAY*30);
-    digitalWrite(LED_BUILTIN, LOW);
-
 
     digitalWrite(LED_BUILTIN, LOW);
-    left_motor.write(PPM_MAX);
+    left_motor_forward(PWM_MAX);
     delay(MOTOR_DELAY);
-    digitalWrite(LED_BUILTIN, HIGH);
 
+    digitalWrite(LED_BUILTIN, HIGH);
+    right_motor_backward(PWM_MAX);
+    delay(MOTOR_DELAY);
 
     digitalWrite(LED_BUILTIN, LOW);
-    left_motor.write(PPM_MIN);
+    right_motor_forward(PWM_MAX);
     delay(MOTOR_DELAY);
+    
     digitalWrite(LED_BUILTIN, HIGH);
-
-
-    digitalWrite(LED_BUILTIN, LOW);
-    right_motor.write(PPM_MAX);
+    right_motor_backward(PWM_MAX);
     delay(MOTOR_DELAY);
-    digitalWrite(LED_BUILTIN, HIGH);
-
-
-    digitalWrite(LED_BUILTIN, LOW);
-    right_motor.write(PPM_MIN);
-    delay(MOTOR_DELAY);
-    digitalWrite(LED_BUILTIN, HIGH);
 }
 
 void push(){
-    left_motor.write(PPM_MAX);
-    right_motor.write(PPM_MAX);
+    left_motor_forward(PWM_MAX);
+    right_motor_forward(PWM_MAX);
 }
 
 void idle(){
-    left_motor.write(PPM_IDLE);
-    right_motor.write(PPM_IDLE);
+    left_motor_forward(PWM_IDLE);
+    right_motor_forward(PWM_IDLE);
 }
 
 void loop(){
   push();
+  //idle();
   //calibrate();
 }
 

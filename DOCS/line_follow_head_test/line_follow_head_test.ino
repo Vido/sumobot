@@ -5,7 +5,7 @@
 #define RIGHT A4
 #define FAR_RIGHT A5
 
-#define WB_THRESHOLDS {700, 700, 700, 700, 700, 700}
+#define WB_THRESHOLDS {500, 500, 500, 500, 300, 300}
 #define IR_DELAY 140
 
 void setup() 
@@ -75,7 +75,7 @@ void print_analog_readings(){
 }
 
 void loop(){
-  //print_analog_readings();
-  print_digital_readings();
+  print_analog_readings();
+  //print_digital_readings();
   delay(20);
 }
