@@ -1,0 +1,3 @@
+#define LEFT_BUMPER 2
+#define RIGHT_BUMPER 4
+#define DEBOUNCE_DELAY 50

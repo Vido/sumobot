@@ -7,13 +7,12 @@
 #define IN4 10 // PWM
 #define ENB 11 // PWM
 
-#define PWM_MAX 200
-#define PWM_SLOW 128
-#define PWM_IDLE 42
+#define PWM_MAX 195
+#define PWM_SLOW 110
+#define PWM_IDLE 35
 
 #define MOTOR_DELAY 100
-
-#define RIGHT_TRIM 1.25 
+#define RIGHT_TRIM 1.25
 
 void left_motor_forward(int power){
   digitalWrite(IN3, HIGH);
@@ -123,7 +122,7 @@ void calibrate()
     delay(MOTOR_DELAY);
 
     digitalWrite(LED_BUILTIN, HIGH);
-    right_motor_backward(PWM_MAX);
+    left_motor_backward(PWM_MAX);
     delay(MOTOR_DELAY);
 
     digitalWrite(LED_BUILTIN, LOW);
@@ -146,8 +145,9 @@ void idle(){
 }
 
 void loop(){
-  push();
+  // push();
   //idle();
   //calibrate();
+  run();
 }
 

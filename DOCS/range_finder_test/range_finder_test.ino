@@ -49,20 +49,21 @@ void loop(){
   static int minn = 1023;
 
   read_value = analogRead(A0);
+  read_value = analogRead(A0);
   delayMicroseconds(70);
   
   if(read_value > maxx) maxx = read_value;
   if(read_value < minn) minn = read_value;
   
-  sweep();
+  // sweep();
   // irrf_servo.write(0);
 
-  /*
   Serial.print(minn); // min = 0
   Serial.print("-");
-  Serial.print(read_value);  
+  Serial.print(read_value);
   Serial.print("-");
   Serial.println(maxx);// max = 747
-  */
-  Serial.println(read_value);
+  delay(500);
+  
+  //Serial.println(read_value);
 }
